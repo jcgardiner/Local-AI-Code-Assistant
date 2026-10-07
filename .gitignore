@@ -1,0 +1,19 @@
+# Your saved chats and attachments. Never upload these.
+chat_history/
+
+# Your personal settings (config.example.toml is the shared template)
+config.toml
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+desktop.ini

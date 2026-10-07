@@ -1,0 +1,26 @@
+# Example settings for local_ai_helper.py
+# Copy this file to config.toml (same folder) and edit that copy.
+# Changes take effect the next time you start the script.
+# Any setting you leave out uses the built-in default.
+
+# Where Ollama is running. localhost means this computer.
+ollama_url = "http://localhost:11434"
+
+# Default models, preselected in the app's dropdowns.
+# Run "ollama list" to see what you have installed.
+text_model = "qwen2.5-coder:7b"
+vision_model = "qwen2.5vl:7b"   # use "" to turn off image support
+
+# Instructions the model sees at the start of every conversation.
+# A backslash at the end of a line joins it to the next line.
+system_prompt = """
+You are a concise, helpful coding and documentation assistant. \
+When asked for SQL, use the schema provided in the message if present.
+"""
+
+# How many past messages are sent with each question.
+# 6 is about the last 3 exchanges. Higher remembers more but is slower on CPU.
+max_history = 6
+
+# Attached text files longer than this many characters are cut off.
+max_text_chars = 12000
