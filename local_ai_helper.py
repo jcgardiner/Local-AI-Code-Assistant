@@ -508,15 +508,20 @@ CSS = """
 #question-panel .q-item:focus-visible .q-text { white-space: normal; }
 #question-panel .q-empty { color: var(--body-text-color-subdued); padding: 8px 10px; }
 
-/* Keep the side columns in view when the page scrolls.
-   Gradio's outer box uses overflow: hidden, which stops "sticky" from
-   working; overflow: clip hides overflow the same way without that problem. */
-.gradio-container { overflow: clip !important; }
-#left-col, #right-col {
-    position: sticky; top: 12px; align-self: flex-start;
+/* One-screen layout: the page never scrolls; only the chat does. */
+html, body { height: 100%; overflow: hidden; }
+#mid-col {
+    height: calc(100vh - 76px);   /* window height minus the page's top/bottom spacing */
+    display: flex; flex-direction: column; flex-wrap: nowrap;
+}
+#mid-col > * { flex: none !important; }    /* header and message box: natural height */
+#mid-col > #chatbot {
+    flex: 1 1 0 !important; min-height: 0;   /* chat: take whatever height is left over */
+    height: auto !important;
 }
 
 /* Brief outline on the question you jumped to */
+#chatbot { isolation: isolate; }
 #chatbot .user-row.q-flash .message { animation: q-flash 1.2s ease-out; }
 @keyframes q-flash {
     from { box-shadow: 0 0 0 3px var(--color-accent); }
@@ -544,7 +549,7 @@ with gr.Blocks(**blocks_kwargs) as demo:
             chat_list = gr.Radio(choices=[], show_label=False, elem_id="chat-list", container=False)
             delete_btn = gr.Button("Delete this chat", size="sm")
 
-        with gr.Column(scale=4):
+        with gr.Column(scale=4, elem_id="mid-col"):
             with gr.Row():
                 text_model_dd = gr.Dropdown(
                     choices=[TEXT_MODEL], value=TEXT_MODEL, label="Model", interactive=True
